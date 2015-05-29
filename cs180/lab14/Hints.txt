@@ -1,0 +1,38 @@
+How to write simple recursive functions?
+
+
+Step 1. Functionality and Name
+	"drawFigure"
+
+
+Step 2. Arguments - Necessary Information
+	1) The three points of triangle p1, p2, and p3;
+	2) The level:
+		level = 1: a simple triangle without any sub-triangles 
+		level >= 2: a triangle formed by three subranges with (level - 1)
+	3) The canvas:
+		The triangles will be drawn on the canvas. Google for its APIs.
+	4) public void drawFigure(int level, Canvas g, Point p1, Point p2,Point p3){}
+
+
+Step 3. The simplest case - level = 1.
+	if (level==1) {
+		//call g.drawLine() for three times to draw three line segments that form a simple triangle
+	}
+
+
+Step 4. A more complex case - level = 2.
+	if (level==2) {
+		int newLevel = 1;
+		// count the three points of each fractal triangle
+		// call drawFigure(newLevel, g, ...) for three times to draw three sub-triangles
+	}
+
+
+Step 5. General cases - level > 1
+	Modify the code of step 4 to deal with all cases.
+
+
+Step 6. First call to recursive funtion
+	Line 65:	drawFigure(5, canvas, p1, p2, p3);	
+

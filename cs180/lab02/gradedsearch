@@ -1,0 +1,5 @@
+			keys_str += (i==0?"":",") + ByteFormatter.encodeString( keys[i] );
+			div_str += (i==0?"":",") + ByteFormatter.encodeString( div[i] );
+		System.out.println( "    " + keys_str + " -> " + div_str );
+						str += (i==0?"":",") + DHTLog.getString2( ((DHTTransportContact)l.get(i)).getID());
+			np_str += (j==0?"":",") + nps[j];

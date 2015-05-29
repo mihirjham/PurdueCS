@@ -1,0 +1,4 @@
+Haoran Lin    --playerMove(),getInput(),checkPlayerPostion(), GUI class 
+Enchong Wang  ----robotMove(),printBoard(), updatePlayerPosition(), updateRobotPosition()
+Mihir Jham   --- updatePlayerPosition(), updateRobotPosition(), Board class 
+Time taken: 2 weeks

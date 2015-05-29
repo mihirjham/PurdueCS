@@ -1,0 +1,5 @@
+
+newegg.com	clerk	vex
+amazon.com	png	nag
+facebook.com	shone	tang
+yahoo.com	envy	roof
