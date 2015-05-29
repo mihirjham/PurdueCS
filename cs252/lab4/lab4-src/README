@@ -1,0 +1,18 @@
+Name: Mihir Jham
+user: mjham
+Course: CS252
+Lab: Lab 4
+
+thr1.cc:
+The program ends up printing their own independent function call from its independent stream.
+"A" corresponds to t1(Thread 1)
+"B" corresponds to t2(Thread 2)
+"C" corresponds to te main thread
+"D" corresponds to t3(Thread 3)
+"E" corresponds to t4(Thread 4)
+
+All of these are independent of each other, and are infinitely printing their corresponding character.
+The characters are printed out in random order as each thread is calling the printf function as soon as it's printf function returns, thus seeming random.
+
+thr2.cc:
+The function printC gets called in the main thread and goes into an infinite loop. The 2 threads are never actually created in the main thread thus have no output.

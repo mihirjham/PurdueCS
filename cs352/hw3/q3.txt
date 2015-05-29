@@ -1,0 +1,63 @@
+int tok;
+char *IDname;
+
+int main()
+{
+	tok = gettok();
+	
+	S();
+
+	if(tok == EOF)
+	{
+		exit(0);			
+	}
+	else
+		error();
+}
+
+void S()
+{
+	if(tok == 'id')
+	{
+		R(IDname);	
+	}
+	else
+		error();
+}
+
+node* R(char *idname)
+{
+	if(tok == 'id')
+	{	
+			tok = gettok();			
+			return R'(idname);	
+	}
+	else if(tok == ']')
+	{
+		tok = gettok();
+		return NULL;	
+	}
+	else
+		error();
+
+}
+
+node* R'(char *idname)
+{	
+	if(tok == '[')
+	{		
+		tok = gettok();
+		return mknode(idname, R(IDname));	
+	}
+	else if(tok == ']')
+	{
+		tok = gettok();
+		return mknode(idname, R(NULL));		
+	}
+	else if(tok == EOF)
+	{
+		return mknode(idname, NULL);	
+	}
+	else
+		error();
+}

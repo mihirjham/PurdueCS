@@ -1,0 +1,106 @@
+Map Editor:
+
+1) Create a class MapEditor with JFrame and ActionListener
+2) Create panels as necessary, set the layout
+3) Create a menu and add menu items like "File", "Open" etc.
+4) Associate menu items with ActionEvents
+5) Write a separate method for each action performed like "onMenuOpen", "onMenuSave" etc.
+6) Now, to implement each location you can create a separate class (for e.g. Location) which stores the x,y coordinates of the location
+7) The Location class should have methods like addEdge, deleteEdge etc which allow you to perform operations on the graph
+8) In the MapEditor class you can maintain a dynamic list of Locations which represent all the locations added thus far
+9) Using the methods of the Location class you can now implement the methods of the MapEditor class like addLocation, deleteLocation, addPath, deletePath etc
+10) Become familiar with the XML classes (e.g. XMLPath) which you will use for operations like "save as" or "open"
+
+Code fragments:
+
+class MapEditor extends JFrame implements ActionListener{
+
+	//Constructor 
+	public MapEditor(){
+		//create panel
+		//set layout
+		//create menu
+		//add menu items
+		//add menu to panel
+	}
+	
+	//Action Listener
+	public void actionPerformed(ActionEvent e){
+		//check if action is:
+		//open
+		//save
+		//save as
+		…..
+		…..
+		…..
+	}
+
+	//write actions for each action item
+	private void onMenuNew(){
+	…
+	}
+
+	private void onMenuOpen() {
+	….
+	}
+
+	…..
+	…..
+
+
+		
+}
+
+
+
+
+
+
+
+
+Map Viewer
+
+1) Create a class MapViewer with Jframe, ActionListener, MouseListener
+2) Create panels as necessary, set the layout
+3) Create a menu and add menu items like "Directions" and "MST"
+4) Associate menu items with ActionEvents
+5) Write a separate method for each action performed like "findDirection", "findMST" etc.
+6) USe Dijkstra's algorithm to find the shortest path between two nodes
+7) Use Prim's or Kruskal's algorithm to fins the Minimum Spanning tree of the graph
+
+
+
+Code fragments:
+
+public class MapViewer extends JFrame implements ActionListener, MouseListener {
+
+	…..
+	public MapViewer() {
+	//create panel
+	//add zoom features
+	//create menu
+	//add menu items
+	//add mouse listeners
+	//add action listeners
+	}
+
+	public void actionPerformed(ActionEvent e) {
+	//check what action was generated
+	//call relevant listener
+		
+	}
+
+	private void findDirection(){
+	//Use Dijkstra to find the shortest path
+	}
+
+	private void findMST(){
+	//Use Prim's or Kruskal to find the MST
+	}
+
+	
+
+}
+
+
+

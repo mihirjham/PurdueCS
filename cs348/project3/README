@@ -1,0 +1,25 @@
+CS348 - Project 3
+Author:	Mihir Jham
+Login:	mjham
+Email:	mjham@purdue.edu
+
+Compilation Instructions:
+
+	- I have refreshed my database and have created all the tables required.
+	- The admin User has been created and the roles associated with it have been added as well.
+	- Compile the java file, RBAC.java, as per the handout suggests.
+
+Running Instructions:
+	
+	- The project should run as expected.
+
+Note:
+	- If the project isn't running as expected, the files droptables.sql has been submitted.
+	This refreshes the database.
+	- A file called tables.sql has been submitted as well.
+	This creates all the tables required and creates the admin user and the roles associated with it as well.
+	- The ojdbc6.jar has been submitted as well.
+
+Extra Credit:
+	
+	- The project has been submitted on 11/17/2014 for the 10 points extra credit.

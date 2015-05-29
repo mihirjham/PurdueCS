@@ -1,0 +1,6 @@
+<script type="text/JavaScript">
+var a;
+var b = a;
+var c = b;
+var d = c;
+</script>

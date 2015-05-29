@@ -1,0 +1,7 @@
+bison -y -d -g -t --debug --report=state parser.y 
+gcc -c y.tab.c	
+flex parser.l
+gcc -c lex.yy.c
+gcc -c HashTable.c
+gcc -c ast.c
+gcc y.tab.o lex.yy.o HashTable.o ast.o -o parser -lfl

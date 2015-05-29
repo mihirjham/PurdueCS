@@ -1,0 +1,13 @@
+digraph Automaton {
+  0 [label="0\n$accept -> . exp $end"]
+  0 -> 1 [style=solid label="ID"]
+  0 -> 2 [style=dashed label="exp"]
+  1 [label="1\nexp -> ID ."]
+  2 [label="2\n$accept -> exp . $end\nexp -> exp . PLUS NUM"]
+  2 -> 3 [style=solid label="$end"]
+  2 -> 4 [style=solid label="PLUS"]
+  3 [label="3\n$accept -> exp $end ."]
+  4 [label="4\nexp -> exp PLUS . NUM"]
+  4 -> 5 [style=solid label="NUM"]
+  5 [label="5\nexp -> exp PLUS NUM ."]
+}

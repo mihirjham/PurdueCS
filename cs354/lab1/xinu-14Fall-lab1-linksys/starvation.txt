@@ -1,0 +1,41 @@
+Starvation occurs in XINU when there are 2 or more processes that are ready
+for execution that have different priorities. XINU chooses and runs the
+highest priority process. Under this policy, the processes with the higher
+priority will always run over the ones with the lower priority. Thus,
+processes with lower priority will never get to run.
+
+The scheduling policy can be seen in resched.c
+
+Below is some code that demonstrates starvation in XINU. This file can also be
+found in the system/ folder.
+
+/*  starvation.c  - starvation */
+
+#include <xinu.h>
+#include <stdio.h>
+
+/************************************************************************/
+/*									*/
+/* starvation - program to present starvation in Xinu			*/
+/*									*/
+/************************************************************************/
+
+void prA(char c)
+{
+	while(1)
+	{
+		kprintf("%c", c);
+	}
+}
+
+void starve(void)
+{
+	pid32 processA = create(prA, 1024, 20, "group1", "Process A", 1, 'a');
+	pid32 processB = create(prA, 1024, 25, "group2", "Process B", 1, 'b');
+
+	resume(processA);
+	resume(processB);
+
+	while(1)
+		sleep(1);
+}

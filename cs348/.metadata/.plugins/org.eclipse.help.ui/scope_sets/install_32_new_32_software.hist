@@ -1,0 +1,5 @@
+#Thu Sep 25 16:59:20 GMT 2014
+__DEFAULT__=false
+org.eclipse.sdk.Eclipse.master=true
+org.eclipse.help.ui.localSearch.master=true
+expression=install new software

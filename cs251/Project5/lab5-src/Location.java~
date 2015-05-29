@@ -1,0 +1,62 @@
+class Location
+{
+  private String name;
+  private static int id = 0;
+  private int x,y;
+  
+  public Location(String name, int id, int x, int y)
+  {
+    this.name = name;
+    this.id++;
+    this.x = x;
+    this.y = y;
+  }
+  
+  public void setName(String name)
+  {
+    this.name = name;
+  }
+  
+  public void setId()
+  {
+    this.id++;
+  }
+  
+  public void setCoordinates(int x, int y)
+  {
+    this.x = x;
+    this.y = y;
+  }
+  
+  public String getName()
+  {
+    return this.name;
+  }
+  
+  public int getId()
+  {
+    return this.id;
+  }
+  
+  public int getXCoordinate()
+  {
+    return this.x;
+  }
+  
+  public int getYCoordinate()
+  {
+    return this.y;
+  }
+  
+  public void setXCoordinate(int x)
+  {
+    this.x = x;
+  }
+  
+  public void setYCoordinate(int y)
+  {
+    this.y = y;
+  }
+  
+  
+  

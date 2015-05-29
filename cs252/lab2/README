@@ -1,0 +1,15 @@
+Name: Mihir Jham
+user: mjham
+PUID: 0025097891
+Lab: Lab 2
+
+Password Script:
+Tended to all the requirements given in the lab handout.
+Additional Feature added:
+	-Checks if the password file exists: If the password file does not exist, the script notifies the user and exits the program.
+
+Backup Script:
+Tended to all the requirements given in the lab handout.
+Additional Features added:
+	-Checks if the file exists: If the file does not exist, the script notifies user and exits the program.
+	-Checks if the backup directory exists: If the backup directory does not exist, the script creates it in the current directory the user is in and continues on.

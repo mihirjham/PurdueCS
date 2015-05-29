@@ -1,0 +1,14 @@
+CS348 - Project 2
+Author:	Mihir Jham
+Login:	mjham
+Email:	mjham@purdue.edu
+
+Files submitted:
+	-tables.sql : All table create SQL statements are here.
+	-queries.sql : All queries according to the handout are here.
+	-views.sql : All view creation statements according to the handout are here.
+	-procedures.sql : All procedures are here.
+
+Extra Credit:
+	-Submitted early on 10/30.
+	-Completed pro_histogram with median compatibitlity.

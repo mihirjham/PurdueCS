@@ -1,0 +1,11 @@
+CS348 - Project 4
+Author:			Mihir Jham
+Login:			mjham
+Email:			mjham@purdue.edu
+Application site:	http://54.164.186.186/MovieDB.php
+
+Note: Make sure to run mongod on the ec2 instance.
+Login to ubuntu@54.164.186.186(the key file has been submitted as well) and run the following commands:
+	cd mongodb/bin
+	./mongod --dbpath=../data
+The application can now be used.

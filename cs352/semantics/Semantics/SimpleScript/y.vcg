@@ -1,0 +1,458 @@
+graph: {
+	display_edge_labels:	yes
+	priority_phase:	yes
+	port_sharing:	no
+	crossing_weight:	median
+	splines:	yes
+	node: {
+		title:	"0"
+		label:	"state  0\n $accept -> . program $end"
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"1"
+		label:	"program"
+		color:	green
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"0"
+		targetname:	"2"
+		label:	"L"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"1"
+		label:	"state  1\n $accept -> program . $end"
+	}
+	edge: {
+		sourcename:	"1"
+		targetname:	"3"
+		label:	"$end"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"2"
+		label:	"state  2\n program -> L .\n L -> L . statement '\\n'"
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"4"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"5"
+		label:	"ID"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"6"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"7"
+		label:	"statement"
+		color:	green
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"2"
+		targetname:	"8"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"3"
+		label:	"state  3\n $accept -> program $end ."
+	}
+	node: {
+		title:	"4"
+		label:	"state  4\n expression -> INTEGER ."
+	}
+	node: {
+		title:	"5"
+		label:	"state  5\n statement -> ID . '=' expression\n expression -> ID ."
+	}
+	edge: {
+		sourcename:	"5"
+		targetname:	"9"
+		label:	"'='"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"6"
+		label:	"state  6\n expression -> '(' . expression ')'"
+	}
+	backedge: {
+		sourcename:	"6"
+		targetname:	"4"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"6"
+		targetname:	"10"
+		label:	"ID"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"6"
+		targetname:	"6"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"6"
+		targetname:	"11"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"7"
+		label:	"state  7\n L -> L statement . '\\n'"
+	}
+	edge: {
+		sourcename:	"7"
+		targetname:	"12"
+		label:	"'\\n'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"8"
+		label:	"state  8\n statement -> expression .\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	edge: {
+		sourcename:	"8"
+		targetname:	"13"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"8"
+		targetname:	"14"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"8"
+		targetname:	"15"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"8"
+		targetname:	"16"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"9"
+		label:	"state  9\n statement -> ID '=' . expression"
+	}
+	backedge: {
+		sourcename:	"9"
+		targetname:	"4"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"9"
+		targetname:	"10"
+		label:	"ID"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"9"
+		targetname:	"6"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"9"
+		targetname:	"17"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"10"
+		label:	"state 10\n expression -> ID ."
+	}
+	node: {
+		title:	"11"
+		label:	"state 11\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression\n expression -> '(' expression . ')'"
+	}
+	edge: {
+		sourcename:	"11"
+		targetname:	"13"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"11"
+		targetname:	"14"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"11"
+		targetname:	"15"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"11"
+		targetname:	"16"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"11"
+		targetname:	"18"
+		label:	"')'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"12"
+		label:	"state 12\n L -> L statement '\\n' ."
+	}
+	node: {
+		title:	"13"
+		label:	"state 13\n expression -> expression '+' . expression"
+	}
+	backedge: {
+		sourcename:	"13"
+		targetname:	"4"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"13"
+		targetname:	"10"
+		label:	"ID"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"13"
+		targetname:	"6"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"13"
+		targetname:	"19"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"14"
+		label:	"state 14\n expression -> expression '-' . expression"
+	}
+	backedge: {
+		sourcename:	"14"
+		targetname:	"4"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"14"
+		targetname:	"10"
+		label:	"ID"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"14"
+		targetname:	"6"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"14"
+		targetname:	"20"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"15"
+		label:	"state 15\n expression -> expression '*' . expression"
+	}
+	backedge: {
+		sourcename:	"15"
+		targetname:	"4"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"15"
+		targetname:	"10"
+		label:	"ID"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"15"
+		targetname:	"6"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"15"
+		targetname:	"21"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"16"
+		label:	"state 16\n expression -> expression '/' . expression"
+	}
+	backedge: {
+		sourcename:	"16"
+		targetname:	"4"
+		label:	"INTEGER"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"16"
+		targetname:	"10"
+		label:	"ID"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"16"
+		targetname:	"6"
+		label:	"'('"
+		color:	blue
+		textcolor:	black
+	}
+	edge: {
+		sourcename:	"16"
+		targetname:	"22"
+		label:	"expression"
+		color:	green
+		textcolor:	black
+	}
+	node: {
+		title:	"17"
+		label:	"state 17\n statement -> ID '=' expression .\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"17"
+		targetname:	"13"
+		label:	"'+'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"17"
+		targetname:	"14"
+		label:	"'-'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"17"
+		targetname:	"15"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"17"
+		targetname:	"16"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"18"
+		label:	"state 18\n expression -> '(' expression ')' ."
+	}
+	node: {
+		title:	"19"
+		label:	"state 19\n expression -> expression . '+' expression\n expression -> expression '+' expression .\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"19"
+		targetname:	"15"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"19"
+		targetname:	"16"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"20"
+		label:	"state 20\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression '-' expression .\n expression -> expression . '*' expression\n expression -> expression . '/' expression"
+	}
+	backedge: {
+		sourcename:	"20"
+		targetname:	"15"
+		label:	"'*'"
+		color:	blue
+		textcolor:	black
+	}
+	backedge: {
+		sourcename:	"20"
+		targetname:	"16"
+		label:	"'/'"
+		color:	blue
+		textcolor:	black
+	}
+	node: {
+		title:	"21"
+		label:	"state 21\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression '*' expression .\n expression -> expression . '/' expression"
+	}
+	node: {
+		title:	"22"
+		label:	"state 22\n expression -> expression . '+' expression\n expression -> expression . '-' expression\n expression -> expression . '*' expression\n expression -> expression . '/' expression\n expression -> expression '/' expression ."
+	}
+
+
+}

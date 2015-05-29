@@ -1,0 +1,2195 @@
+Grammar
+
+    0 $accept: goal $end
+
+    1 goal: START statements END NEWLINE
+
+    2 statements: statements statement
+    3           | statement
+
+    4 statement: DOC DOT WRITE OPENPAR arg_list CLOSEPAR separator
+    5          | declaration separator
+    6          | assignment separator
+    7          | if_expression
+    8          | loop
+    9          | NEWLINE
+   10          | BREAK separator
+   11          | CONTINUE separator
+
+   12 declaration: VAR ID
+   13            | VAR ID EQUAL not_expression
+   14            | VAR ID EQUAL object
+   15            | VAR ID EQUAL array
+
+   16 assignment: ID EQUAL not_expression
+   17           | ID DOT ID EQUAL not_expression
+   18           | ID OPENHARD not_expression CLOSEHARD EQUAL not_expression
+
+   19 $@1: /* empty */
+
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@1 statements CLOSEBRACE else_opt
+
+   21 $@2: /* empty */
+
+   22 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@2 CLOSEBRACE else_opt
+
+   23 else_opt: ELSE if_expression
+
+   24 $@3: /* empty */
+
+   25 else_opt: ELSE OPENBRACE NEWLINE $@3 statements CLOSEBRACE NEWLINE
+
+   26 $@4: /* empty */
+
+   27 else_opt: ELSE OPENBRACE NEWLINE $@4 CLOSEBRACE NEWLINE
+   28         | /* empty */
+
+   29 $@5: /* empty */
+
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@5 statements CLOSEBRACE NEWLINE
+
+   31 $@6: /* empty */
+
+   32 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@6 CLOSEBRACE NEWLINE
+
+   33 $@7: /* empty */
+
+   34 $@8: /* empty */
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+   36 object: OPENBRACE definition_list CLOSEBRACE
+
+   37 array: OPENHARD member_list CLOSEHARD
+
+   38 member_list: member_list COMMA newline_opt not_expression newline_opt
+   39            | newline_opt not_expression newline_opt
+   40            | /* empty */
+
+   41 definition_list: definition_list COMMA newline_opt definition newline_opt
+   42                | newline_opt definition newline_opt
+   43                | /* empty */
+
+   44 definition: ID COLON not_expression
+
+   45 newline_opt: newline_opt NEWLINE
+   46            | /* empty */
+
+   47 arg_list: arg_list COMMA argument
+   48         | argument
+   49         | /* empty */
+
+   50 argument: not_expression
+
+   51 not_expression: boolean
+
+   52 boolean: boolean ANDAND condition
+   53        | boolean OROR condition
+   54        | condition
+
+   55 condition: condition LESS expression
+   56          | condition LESSEQUAL expression
+   57          | condition GREATER expression
+   58          | condition GREATEREQUAL expression
+   59          | condition EQUALEQUAL expression
+   60          | condition NOTEQUAL expression
+   61          | expression
+
+   62 expression: expression '+' factor
+   63           | expression '-' factor
+   64           | factor
+
+   65 factor: factor '*' token
+   66       | factor '/' token
+   67       | token
+
+   68 token: ID
+   69      | NUM
+   70      | QUOTEDSTRING
+   71      | BREAKLINE
+   72      | OPENPAR not_expression CLOSEPAR
+   73      | ID DOT ID
+   74      | ID OPENHARD expression CLOSEHARD
+   75      | TRUE
+   76      | FALSE
+   77      | NOT ID
+   78      | NOT OPENPAR not_expression CLOSEPAR
+
+   79 separator: NEWLINE
+   80          | SEMICOLON
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'*' (42) 65
+'+' (43) 62
+'-' (45) 63
+'/' (47) 66
+error (256)
+ID (258) 12 13 14 15 16 17 18 44 68 73 74 77
+QUOTEDSTRING (259) 70
+BREAKLINE (260) 71
+NUM (261) 69
+VAR (262) 12 13 14 15
+EQUAL (263) 13 14 15 16 17 18
+SEMICOLON (264) 80
+NEWLINE (265) 1 9 20 22 25 27 30 32 35 45 79
+DOC (266) 4
+WRITE (267) 4
+OPENPAR (268) 4 20 22 30 32 35 72 78
+CLOSEPAR (269) 4 20 22 30 32 35 72 78
+COMMA (270) 38 41 47
+DOT (271) 4 17 73
+START (272) 1
+END (273) 1
+OPENBRACE (274) 20 22 25 27 30 32 35 36
+CLOSEBRACE (275) 20 22 25 27 30 32 35 36
+COLON (276) 44
+IF (277) 20 22
+ELSE (278) 23 25 27
+OROR (279) 53
+ANDAND (280) 52
+NOT (281) 77 78
+LESS (282) 55
+LESSEQUAL (283) 56
+GREATER (284) 57
+GREATEREQUAL (285) 58
+EQUALEQUAL (286) 59
+NOTEQUAL (287) 60
+TRUE (288) 75
+FALSE (289) 76
+WHILE (290) 30 32 35
+BREAK (291) 10
+CONTINUE (292) 11
+DO (293) 35
+OPENHARD (294) 18 37 74
+CLOSEHARD (295) 18 37 74
+
+
+Nonterminals, with rules where they appear
+
+$accept (45)
+    on left: 0
+goal (46)
+    on left: 1, on right: 0
+statements (47)
+    on left: 2 3, on right: 1 2 20 25 30 35
+statement (48)
+    on left: 4 5 6 7 8 9 10 11, on right: 2 3
+declaration (49)
+    on left: 12 13 14 15, on right: 5
+assignment (50)
+    on left: 16 17 18, on right: 6
+if_expression (51)
+    on left: 20 22, on right: 7 23
+$@1 (52)
+    on left: 19, on right: 20
+$@2 (53)
+    on left: 21, on right: 22
+else_opt (54)
+    on left: 23 25 27 28, on right: 20 22
+$@3 (55)
+    on left: 24, on right: 25
+$@4 (56)
+    on left: 26, on right: 27
+loop (57)
+    on left: 30 32 35, on right: 8
+$@5 (58)
+    on left: 29, on right: 30
+$@6 (59)
+    on left: 31, on right: 32
+$@7 (60)
+    on left: 33, on right: 35
+$@8 (61)
+    on left: 34, on right: 35
+object (62)
+    on left: 36, on right: 14
+array (63)
+    on left: 37, on right: 15
+member_list (64)
+    on left: 38 39 40, on right: 37 38
+definition_list (65)
+    on left: 41 42 43, on right: 36 41
+definition (66)
+    on left: 44, on right: 41 42
+newline_opt (67)
+    on left: 45 46, on right: 38 39 41 42 45
+arg_list (68)
+    on left: 47 48 49, on right: 4 47
+argument (69)
+    on left: 50, on right: 47 48
+not_expression (70)
+    on left: 51, on right: 13 16 17 18 20 22 30 32 35 38 39 44 50 72
+    78
+boolean (71)
+    on left: 52 53 54, on right: 51 52 53
+condition (72)
+    on left: 55 56 57 58 59 60 61, on right: 52 53 54 55 56 57 58 59
+    60
+expression (73)
+    on left: 62 63 64, on right: 55 56 57 58 59 60 61 62 63 74
+factor (74)
+    on left: 65 66 67, on right: 62 63 64 65 66
+token (75)
+    on left: 68 69 70 71 72 73 74 75 76 77 78, on right: 65 66 67
+separator (76)
+    on left: 79 80, on right: 4 5 6 10 11 35
+
+
+state 0
+
+    0 $accept: . goal $end
+
+    START  shift, and go to state 1
+
+    goal  go to state 2
+
+
+state 1
+
+    1 goal: START . statements END NEWLINE
+
+    ID        shift, and go to state 3
+    VAR       shift, and go to state 4
+    NEWLINE   shift, and go to state 5
+    DOC       shift, and go to state 6
+    IF        shift, and go to state 7
+    WHILE     shift, and go to state 8
+    BREAK     shift, and go to state 9
+    CONTINUE  shift, and go to state 10
+    DO        shift, and go to state 11
+
+    statements     go to state 12
+    statement      go to state 13
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 2
+
+    0 $accept: goal . $end
+
+    $end  shift, and go to state 18
+
+
+state 3
+
+   16 assignment: ID . EQUAL not_expression
+   17           | ID . DOT ID EQUAL not_expression
+   18           | ID . OPENHARD not_expression CLOSEHARD EQUAL not_expression
+
+    EQUAL     shift, and go to state 19
+    DOT       shift, and go to state 20
+    OPENHARD  shift, and go to state 21
+
+
+state 4
+
+   12 declaration: VAR . ID
+   13            | VAR . ID EQUAL not_expression
+   14            | VAR . ID EQUAL object
+   15            | VAR . ID EQUAL array
+
+    ID  shift, and go to state 22
+
+
+state 5
+
+    9 statement: NEWLINE .
+
+    $default  reduce using rule 9 (statement)
+
+
+state 6
+
+    4 statement: DOC . DOT WRITE OPENPAR arg_list CLOSEPAR separator
+
+    DOT  shift, and go to state 23
+
+
+state 7
+
+   20 if_expression: IF . OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@1 statements CLOSEBRACE else_opt
+   22              | IF . OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@2 CLOSEBRACE else_opt
+
+    OPENPAR  shift, and go to state 24
+
+
+state 8
+
+   30 loop: WHILE . OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@5 statements CLOSEBRACE NEWLINE
+   32     | WHILE . OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@6 CLOSEBRACE NEWLINE
+
+    OPENPAR  shift, and go to state 25
+
+
+state 9
+
+   10 statement: BREAK . separator
+
+    SEMICOLON  shift, and go to state 26
+    NEWLINE    shift, and go to state 27
+
+    separator  go to state 28
+
+
+state 10
+
+   11 statement: CONTINUE . separator
+
+    SEMICOLON  shift, and go to state 26
+    NEWLINE    shift, and go to state 27
+
+    separator  go to state 29
+
+
+state 11
+
+   35 loop: DO . OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+    OPENBRACE  shift, and go to state 30
+
+
+state 12
+
+    1 goal: START statements . END NEWLINE
+    2 statements: statements . statement
+
+    ID        shift, and go to state 3
+    VAR       shift, and go to state 4
+    NEWLINE   shift, and go to state 5
+    DOC       shift, and go to state 6
+    END       shift, and go to state 31
+    IF        shift, and go to state 7
+    WHILE     shift, and go to state 8
+    BREAK     shift, and go to state 9
+    CONTINUE  shift, and go to state 10
+    DO        shift, and go to state 11
+
+    statement      go to state 32
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 13
+
+    3 statements: statement .
+
+    $default  reduce using rule 3 (statements)
+
+
+state 14
+
+    5 statement: declaration . separator
+
+    SEMICOLON  shift, and go to state 26
+    NEWLINE    shift, and go to state 27
+
+    separator  go to state 33
+
+
+state 15
+
+    6 statement: assignment . separator
+
+    SEMICOLON  shift, and go to state 26
+    NEWLINE    shift, and go to state 27
+
+    separator  go to state 34
+
+
+state 16
+
+    7 statement: if_expression .
+
+    $default  reduce using rule 7 (statement)
+
+
+state 17
+
+    8 statement: loop .
+
+    $default  reduce using rule 8 (statement)
+
+
+state 18
+
+    0 $accept: goal $end .
+
+    $default  accept
+
+
+state 19
+
+   16 assignment: ID EQUAL . not_expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 43
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 20
+
+   17 assignment: ID DOT . ID EQUAL not_expression
+
+    ID  shift, and go to state 49
+
+
+state 21
+
+   18 assignment: ID OPENHARD . not_expression CLOSEHARD EQUAL not_expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 50
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 22
+
+   12 declaration: VAR ID .
+   13            | VAR ID . EQUAL not_expression
+   14            | VAR ID . EQUAL object
+   15            | VAR ID . EQUAL array
+
+    EQUAL  shift, and go to state 51
+
+    $default  reduce using rule 12 (declaration)
+
+
+state 23
+
+    4 statement: DOC DOT . WRITE OPENPAR arg_list CLOSEPAR separator
+
+    WRITE  shift, and go to state 52
+
+
+state 24
+
+   20 if_expression: IF OPENPAR . not_expression CLOSEPAR OPENBRACE NEWLINE $@1 statements CLOSEBRACE else_opt
+   22              | IF OPENPAR . not_expression CLOSEPAR OPENBRACE NEWLINE $@2 CLOSEBRACE else_opt
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 53
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 25
+
+   30 loop: WHILE OPENPAR . not_expression CLOSEPAR OPENBRACE NEWLINE $@5 statements CLOSEBRACE NEWLINE
+   32     | WHILE OPENPAR . not_expression CLOSEPAR OPENBRACE NEWLINE $@6 CLOSEBRACE NEWLINE
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 54
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 26
+
+   80 separator: SEMICOLON .
+
+    $default  reduce using rule 80 (separator)
+
+
+state 27
+
+   79 separator: NEWLINE .
+
+    $default  reduce using rule 79 (separator)
+
+
+state 28
+
+   10 statement: BREAK separator .
+
+    $default  reduce using rule 10 (statement)
+
+
+state 29
+
+   11 statement: CONTINUE separator .
+
+    $default  reduce using rule 11 (statement)
+
+
+state 30
+
+   35 loop: DO OPENBRACE . NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+    NEWLINE  shift, and go to state 55
+
+
+state 31
+
+    1 goal: START statements END . NEWLINE
+
+    NEWLINE  shift, and go to state 56
+
+
+state 32
+
+    2 statements: statements statement .
+
+    $default  reduce using rule 2 (statements)
+
+
+state 33
+
+    5 statement: declaration separator .
+
+    $default  reduce using rule 5 (statement)
+
+
+state 34
+
+    6 statement: assignment separator .
+
+    $default  reduce using rule 6 (statement)
+
+
+state 35
+
+   68 token: ID .
+   73      | ID . DOT ID
+   74      | ID . OPENHARD expression CLOSEHARD
+
+    DOT       shift, and go to state 57
+    OPENHARD  shift, and go to state 58
+
+    $default  reduce using rule 68 (token)
+
+
+state 36
+
+   70 token: QUOTEDSTRING .
+
+    $default  reduce using rule 70 (token)
+
+
+state 37
+
+   71 token: BREAKLINE .
+
+    $default  reduce using rule 71 (token)
+
+
+state 38
+
+   69 token: NUM .
+
+    $default  reduce using rule 69 (token)
+
+
+state 39
+
+   72 token: OPENPAR . not_expression CLOSEPAR
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 59
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 40
+
+   77 token: NOT . ID
+   78      | NOT . OPENPAR not_expression CLOSEPAR
+
+    ID       shift, and go to state 60
+    OPENPAR  shift, and go to state 61
+
+
+state 41
+
+   75 token: TRUE .
+
+    $default  reduce using rule 75 (token)
+
+
+state 42
+
+   76 token: FALSE .
+
+    $default  reduce using rule 76 (token)
+
+
+state 43
+
+   16 assignment: ID EQUAL not_expression .
+
+    $default  reduce using rule 16 (assignment)
+
+
+state 44
+
+   51 not_expression: boolean .
+   52 boolean: boolean . ANDAND condition
+   53        | boolean . OROR condition
+
+    OROR    shift, and go to state 62
+    ANDAND  shift, and go to state 63
+
+    $default  reduce using rule 51 (not_expression)
+
+
+state 45
+
+   54 boolean: condition .
+   55 condition: condition . LESS expression
+   56          | condition . LESSEQUAL expression
+   57          | condition . GREATER expression
+   58          | condition . GREATEREQUAL expression
+   59          | condition . EQUALEQUAL expression
+   60          | condition . NOTEQUAL expression
+
+    LESS          shift, and go to state 64
+    LESSEQUAL     shift, and go to state 65
+    GREATER       shift, and go to state 66
+    GREATEREQUAL  shift, and go to state 67
+    EQUALEQUAL    shift, and go to state 68
+    NOTEQUAL      shift, and go to state 69
+
+    $default  reduce using rule 54 (boolean)
+
+
+state 46
+
+   61 condition: expression .
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+
+    '+'  shift, and go to state 70
+    '-'  shift, and go to state 71
+
+    $default  reduce using rule 61 (condition)
+
+
+state 47
+
+   64 expression: factor .
+   65 factor: factor . '*' token
+   66       | factor . '/' token
+
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+
+    $default  reduce using rule 64 (expression)
+
+
+state 48
+
+   67 factor: token .
+
+    $default  reduce using rule 67 (factor)
+
+
+state 49
+
+   17 assignment: ID DOT ID . EQUAL not_expression
+
+    EQUAL  shift, and go to state 74
+
+
+state 50
+
+   18 assignment: ID OPENHARD not_expression . CLOSEHARD EQUAL not_expression
+
+    CLOSEHARD  shift, and go to state 75
+
+
+state 51
+
+   13 declaration: VAR ID EQUAL . not_expression
+   14            | VAR ID EQUAL . object
+   15            | VAR ID EQUAL . array
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    OPENBRACE     shift, and go to state 76
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+    OPENHARD      shift, and go to state 77
+
+    object          go to state 78
+    array           go to state 79
+    not_expression  go to state 80
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 52
+
+    4 statement: DOC DOT WRITE . OPENPAR arg_list CLOSEPAR separator
+
+    OPENPAR  shift, and go to state 81
+
+
+state 53
+
+   20 if_expression: IF OPENPAR not_expression . CLOSEPAR OPENBRACE NEWLINE $@1 statements CLOSEBRACE else_opt
+   22              | IF OPENPAR not_expression . CLOSEPAR OPENBRACE NEWLINE $@2 CLOSEBRACE else_opt
+
+    CLOSEPAR  shift, and go to state 82
+
+
+state 54
+
+   30 loop: WHILE OPENPAR not_expression . CLOSEPAR OPENBRACE NEWLINE $@5 statements CLOSEBRACE NEWLINE
+   32     | WHILE OPENPAR not_expression . CLOSEPAR OPENBRACE NEWLINE $@6 CLOSEBRACE NEWLINE
+
+    CLOSEPAR  shift, and go to state 83
+
+
+state 55
+
+   35 loop: DO OPENBRACE NEWLINE . $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+    $default  reduce using rule 33 ($@7)
+
+    $@7  go to state 84
+
+
+state 56
+
+    1 goal: START statements END NEWLINE .
+
+    $default  reduce using rule 1 (goal)
+
+
+state 57
+
+   73 token: ID DOT . ID
+
+    ID  shift, and go to state 85
+
+
+state 58
+
+   74 token: ID OPENHARD . expression CLOSEHARD
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    expression  go to state 86
+    factor      go to state 47
+    token       go to state 48
+
+
+state 59
+
+   72 token: OPENPAR not_expression . CLOSEPAR
+
+    CLOSEPAR  shift, and go to state 87
+
+
+state 60
+
+   77 token: NOT ID .
+
+    $default  reduce using rule 77 (token)
+
+
+state 61
+
+   78 token: NOT OPENPAR . not_expression CLOSEPAR
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 88
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 62
+
+   53 boolean: boolean OROR . condition
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    condition   go to state 89
+    expression  go to state 46
+    factor      go to state 47
+    token       go to state 48
+
+
+state 63
+
+   52 boolean: boolean ANDAND . condition
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    condition   go to state 90
+    expression  go to state 46
+    factor      go to state 47
+    token       go to state 48
+
+
+state 64
+
+   55 condition: condition LESS . expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    expression  go to state 91
+    factor      go to state 47
+    token       go to state 48
+
+
+state 65
+
+   56 condition: condition LESSEQUAL . expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    expression  go to state 92
+    factor      go to state 47
+    token       go to state 48
+
+
+state 66
+
+   57 condition: condition GREATER . expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    expression  go to state 93
+    factor      go to state 47
+    token       go to state 48
+
+
+state 67
+
+   58 condition: condition GREATEREQUAL . expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    expression  go to state 94
+    factor      go to state 47
+    token       go to state 48
+
+
+state 68
+
+   59 condition: condition EQUALEQUAL . expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    expression  go to state 95
+    factor      go to state 47
+    token       go to state 48
+
+
+state 69
+
+   60 condition: condition NOTEQUAL . expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    expression  go to state 96
+    factor      go to state 47
+    token       go to state 48
+
+
+state 70
+
+   62 expression: expression '+' . factor
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    factor  go to state 97
+    token   go to state 48
+
+
+state 71
+
+   63 expression: expression '-' . factor
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    factor  go to state 98
+    token   go to state 48
+
+
+state 72
+
+   65 factor: factor '*' . token
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    token  go to state 99
+
+
+state 73
+
+   66 factor: factor '/' . token
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    token  go to state 100
+
+
+state 74
+
+   17 assignment: ID DOT ID EQUAL . not_expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 101
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 75
+
+   18 assignment: ID OPENHARD not_expression CLOSEHARD . EQUAL not_expression
+
+    EQUAL  shift, and go to state 102
+
+
+state 76
+
+   36 object: OPENBRACE . definition_list CLOSEBRACE
+
+    ID        reduce using rule 46 (newline_opt)
+    NEWLINE   reduce using rule 46 (newline_opt)
+    $default  reduce using rule 43 (definition_list)
+
+    definition_list  go to state 103
+    newline_opt      go to state 104
+
+
+state 77
+
+   37 array: OPENHARD . member_list CLOSEHARD
+
+    COMMA      reduce using rule 40 (member_list)
+    CLOSEHARD  reduce using rule 40 (member_list)
+    $default   reduce using rule 46 (newline_opt)
+
+    member_list  go to state 105
+    newline_opt  go to state 106
+
+
+state 78
+
+   14 declaration: VAR ID EQUAL object .
+
+    $default  reduce using rule 14 (declaration)
+
+
+state 79
+
+   15 declaration: VAR ID EQUAL array .
+
+    $default  reduce using rule 15 (declaration)
+
+
+state 80
+
+   13 declaration: VAR ID EQUAL not_expression .
+
+    $default  reduce using rule 13 (declaration)
+
+
+state 81
+
+    4 statement: DOC DOT WRITE OPENPAR . arg_list CLOSEPAR separator
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    $default  reduce using rule 49 (arg_list)
+
+    arg_list        go to state 107
+    argument        go to state 108
+    not_expression  go to state 109
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 82
+
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR . OPENBRACE NEWLINE $@1 statements CLOSEBRACE else_opt
+   22              | IF OPENPAR not_expression CLOSEPAR . OPENBRACE NEWLINE $@2 CLOSEBRACE else_opt
+
+    OPENBRACE  shift, and go to state 110
+
+
+state 83
+
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR . OPENBRACE NEWLINE $@5 statements CLOSEBRACE NEWLINE
+   32     | WHILE OPENPAR not_expression CLOSEPAR . OPENBRACE NEWLINE $@6 CLOSEBRACE NEWLINE
+
+    OPENBRACE  shift, and go to state 111
+
+
+state 84
+
+   35 loop: DO OPENBRACE NEWLINE $@7 . statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+    ID        shift, and go to state 3
+    VAR       shift, and go to state 4
+    NEWLINE   shift, and go to state 5
+    DOC       shift, and go to state 6
+    IF        shift, and go to state 7
+    WHILE     shift, and go to state 8
+    BREAK     shift, and go to state 9
+    CONTINUE  shift, and go to state 10
+    DO        shift, and go to state 11
+
+    statements     go to state 112
+    statement      go to state 13
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 85
+
+   73 token: ID DOT ID .
+
+    $default  reduce using rule 73 (token)
+
+
+state 86
+
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+   74 token: ID OPENHARD expression . CLOSEHARD
+
+    CLOSEHARD  shift, and go to state 113
+    '+'        shift, and go to state 70
+    '-'        shift, and go to state 71
+
+
+state 87
+
+   72 token: OPENPAR not_expression CLOSEPAR .
+
+    $default  reduce using rule 72 (token)
+
+
+state 88
+
+   78 token: NOT OPENPAR not_expression . CLOSEPAR
+
+    CLOSEPAR  shift, and go to state 114
+
+
+state 89
+
+   53 boolean: boolean OROR condition .
+   55 condition: condition . LESS expression
+   56          | condition . LESSEQUAL expression
+   57          | condition . GREATER expression
+   58          | condition . GREATEREQUAL expression
+   59          | condition . EQUALEQUAL expression
+   60          | condition . NOTEQUAL expression
+
+    LESS          shift, and go to state 64
+    LESSEQUAL     shift, and go to state 65
+    GREATER       shift, and go to state 66
+    GREATEREQUAL  shift, and go to state 67
+    EQUALEQUAL    shift, and go to state 68
+    NOTEQUAL      shift, and go to state 69
+
+    $default  reduce using rule 53 (boolean)
+
+
+state 90
+
+   52 boolean: boolean ANDAND condition .
+   55 condition: condition . LESS expression
+   56          | condition . LESSEQUAL expression
+   57          | condition . GREATER expression
+   58          | condition . GREATEREQUAL expression
+   59          | condition . EQUALEQUAL expression
+   60          | condition . NOTEQUAL expression
+
+    LESS          shift, and go to state 64
+    LESSEQUAL     shift, and go to state 65
+    GREATER       shift, and go to state 66
+    GREATEREQUAL  shift, and go to state 67
+    EQUALEQUAL    shift, and go to state 68
+    NOTEQUAL      shift, and go to state 69
+
+    $default  reduce using rule 52 (boolean)
+
+
+state 91
+
+   55 condition: condition LESS expression .
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+
+    '+'  shift, and go to state 70
+    '-'  shift, and go to state 71
+
+    $default  reduce using rule 55 (condition)
+
+
+state 92
+
+   56 condition: condition LESSEQUAL expression .
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+
+    '+'  shift, and go to state 70
+    '-'  shift, and go to state 71
+
+    $default  reduce using rule 56 (condition)
+
+
+state 93
+
+   57 condition: condition GREATER expression .
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+
+    '+'  shift, and go to state 70
+    '-'  shift, and go to state 71
+
+    $default  reduce using rule 57 (condition)
+
+
+state 94
+
+   58 condition: condition GREATEREQUAL expression .
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+
+    '+'  shift, and go to state 70
+    '-'  shift, and go to state 71
+
+    $default  reduce using rule 58 (condition)
+
+
+state 95
+
+   59 condition: condition EQUALEQUAL expression .
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+
+    '+'  shift, and go to state 70
+    '-'  shift, and go to state 71
+
+    $default  reduce using rule 59 (condition)
+
+
+state 96
+
+   60 condition: condition NOTEQUAL expression .
+   62 expression: expression . '+' factor
+   63           | expression . '-' factor
+
+    '+'  shift, and go to state 70
+    '-'  shift, and go to state 71
+
+    $default  reduce using rule 60 (condition)
+
+
+state 97
+
+   62 expression: expression '+' factor .
+   65 factor: factor . '*' token
+   66       | factor . '/' token
+
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+
+    $default  reduce using rule 62 (expression)
+
+
+state 98
+
+   63 expression: expression '-' factor .
+   65 factor: factor . '*' token
+   66       | factor . '/' token
+
+    '*'  shift, and go to state 72
+    '/'  shift, and go to state 73
+
+    $default  reduce using rule 63 (expression)
+
+
+state 99
+
+   65 factor: factor '*' token .
+
+    $default  reduce using rule 65 (factor)
+
+
+state 100
+
+   66 factor: factor '/' token .
+
+    $default  reduce using rule 66 (factor)
+
+
+state 101
+
+   17 assignment: ID DOT ID EQUAL not_expression .
+
+    $default  reduce using rule 17 (assignment)
+
+
+state 102
+
+   18 assignment: ID OPENHARD not_expression CLOSEHARD EQUAL . not_expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 115
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 103
+
+   36 object: OPENBRACE definition_list . CLOSEBRACE
+   41 definition_list: definition_list . COMMA newline_opt definition newline_opt
+
+    COMMA       shift, and go to state 116
+    CLOSEBRACE  shift, and go to state 117
+
+
+state 104
+
+   42 definition_list: newline_opt . definition newline_opt
+   45 newline_opt: newline_opt . NEWLINE
+
+    ID       shift, and go to state 118
+    NEWLINE  shift, and go to state 119
+
+    definition  go to state 120
+
+
+state 105
+
+   37 array: OPENHARD member_list . CLOSEHARD
+   38 member_list: member_list . COMMA newline_opt not_expression newline_opt
+
+    COMMA      shift, and go to state 121
+    CLOSEHARD  shift, and go to state 122
+
+
+state 106
+
+   39 member_list: newline_opt . not_expression newline_opt
+   45 newline_opt: newline_opt . NEWLINE
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    NEWLINE       shift, and go to state 119
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 123
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 107
+
+    4 statement: DOC DOT WRITE OPENPAR arg_list . CLOSEPAR separator
+   47 arg_list: arg_list . COMMA argument
+
+    CLOSEPAR  shift, and go to state 124
+    COMMA     shift, and go to state 125
+
+
+state 108
+
+   48 arg_list: argument .
+
+    $default  reduce using rule 48 (arg_list)
+
+
+state 109
+
+   50 argument: not_expression .
+
+    $default  reduce using rule 50 (argument)
+
+
+state 110
+
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE . NEWLINE $@1 statements CLOSEBRACE else_opt
+   22              | IF OPENPAR not_expression CLOSEPAR OPENBRACE . NEWLINE $@2 CLOSEBRACE else_opt
+
+    NEWLINE  shift, and go to state 126
+
+
+state 111
+
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE . NEWLINE $@5 statements CLOSEBRACE NEWLINE
+   32     | WHILE OPENPAR not_expression CLOSEPAR OPENBRACE . NEWLINE $@6 CLOSEBRACE NEWLINE
+
+    NEWLINE  shift, and go to state 127
+
+
+state 112
+
+    2 statements: statements . statement
+   35 loop: DO OPENBRACE NEWLINE $@7 statements . CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+    ID          shift, and go to state 3
+    VAR         shift, and go to state 4
+    NEWLINE     shift, and go to state 5
+    DOC         shift, and go to state 6
+    CLOSEBRACE  shift, and go to state 128
+    IF          shift, and go to state 7
+    WHILE       shift, and go to state 8
+    BREAK       shift, and go to state 9
+    CONTINUE    shift, and go to state 10
+    DO          shift, and go to state 11
+
+    statement      go to state 32
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 113
+
+   74 token: ID OPENHARD expression CLOSEHARD .
+
+    $default  reduce using rule 74 (token)
+
+
+state 114
+
+   78 token: NOT OPENPAR not_expression CLOSEPAR .
+
+    $default  reduce using rule 78 (token)
+
+
+state 115
+
+   18 assignment: ID OPENHARD not_expression CLOSEHARD EQUAL not_expression .
+
+    $default  reduce using rule 18 (assignment)
+
+
+state 116
+
+   41 definition_list: definition_list COMMA . newline_opt definition newline_opt
+
+    $default  reduce using rule 46 (newline_opt)
+
+    newline_opt  go to state 129
+
+
+state 117
+
+   36 object: OPENBRACE definition_list CLOSEBRACE .
+
+    $default  reduce using rule 36 (object)
+
+
+state 118
+
+   44 definition: ID . COLON not_expression
+
+    COLON  shift, and go to state 130
+
+
+state 119
+
+   45 newline_opt: newline_opt NEWLINE .
+
+    $default  reduce using rule 45 (newline_opt)
+
+
+state 120
+
+   42 definition_list: newline_opt definition . newline_opt
+
+    $default  reduce using rule 46 (newline_opt)
+
+    newline_opt  go to state 131
+
+
+state 121
+
+   38 member_list: member_list COMMA . newline_opt not_expression newline_opt
+
+    $default  reduce using rule 46 (newline_opt)
+
+    newline_opt  go to state 132
+
+
+state 122
+
+   37 array: OPENHARD member_list CLOSEHARD .
+
+    $default  reduce using rule 37 (array)
+
+
+state 123
+
+   39 member_list: newline_opt not_expression . newline_opt
+
+    $default  reduce using rule 46 (newline_opt)
+
+    newline_opt  go to state 133
+
+
+state 124
+
+    4 statement: DOC DOT WRITE OPENPAR arg_list CLOSEPAR . separator
+
+    SEMICOLON  shift, and go to state 26
+    NEWLINE    shift, and go to state 27
+
+    separator  go to state 134
+
+
+state 125
+
+   47 arg_list: arg_list COMMA . argument
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    argument        go to state 135
+    not_expression  go to state 109
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 126
+
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE . $@1 statements CLOSEBRACE else_opt
+   22              | IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE . $@2 CLOSEBRACE else_opt
+
+    CLOSEBRACE  reduce using rule 21 ($@2)
+    $default    reduce using rule 19 ($@1)
+
+    $@1  go to state 136
+    $@2  go to state 137
+
+
+state 127
+
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE . $@5 statements CLOSEBRACE NEWLINE
+   32     | WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE . $@6 CLOSEBRACE NEWLINE
+
+    CLOSEBRACE  reduce using rule 31 ($@6)
+    $default    reduce using rule 29 ($@5)
+
+    $@5  go to state 138
+    $@6  go to state 139
+
+
+state 128
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE . NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+    NEWLINE  shift, and go to state 140
+
+
+state 129
+
+   41 definition_list: definition_list COMMA newline_opt . definition newline_opt
+   45 newline_opt: newline_opt . NEWLINE
+
+    ID       shift, and go to state 118
+    NEWLINE  shift, and go to state 119
+
+    definition  go to state 141
+
+
+state 130
+
+   44 definition: ID COLON . not_expression
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 142
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 131
+
+   42 definition_list: newline_opt definition newline_opt .
+   45 newline_opt: newline_opt . NEWLINE
+
+    NEWLINE  shift, and go to state 119
+
+    $default  reduce using rule 42 (definition_list)
+
+
+state 132
+
+   38 member_list: member_list COMMA newline_opt . not_expression newline_opt
+   45 newline_opt: newline_opt . NEWLINE
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    NEWLINE       shift, and go to state 119
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 143
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 133
+
+   39 member_list: newline_opt not_expression newline_opt .
+   45 newline_opt: newline_opt . NEWLINE
+
+    NEWLINE  shift, and go to state 119
+
+    $default  reduce using rule 39 (member_list)
+
+
+state 134
+
+    4 statement: DOC DOT WRITE OPENPAR arg_list CLOSEPAR separator .
+
+    $default  reduce using rule 4 (statement)
+
+
+state 135
+
+   47 arg_list: arg_list COMMA argument .
+
+    $default  reduce using rule 47 (arg_list)
+
+
+state 136
+
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@1 . statements CLOSEBRACE else_opt
+
+    ID        shift, and go to state 3
+    VAR       shift, and go to state 4
+    NEWLINE   shift, and go to state 5
+    DOC       shift, and go to state 6
+    IF        shift, and go to state 7
+    WHILE     shift, and go to state 8
+    BREAK     shift, and go to state 9
+    CONTINUE  shift, and go to state 10
+    DO        shift, and go to state 11
+
+    statements     go to state 144
+    statement      go to state 13
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 137
+
+   22 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@2 . CLOSEBRACE else_opt
+
+    CLOSEBRACE  shift, and go to state 145
+
+
+state 138
+
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@5 . statements CLOSEBRACE NEWLINE
+
+    ID        shift, and go to state 3
+    VAR       shift, and go to state 4
+    NEWLINE   shift, and go to state 5
+    DOC       shift, and go to state 6
+    IF        shift, and go to state 7
+    WHILE     shift, and go to state 8
+    BREAK     shift, and go to state 9
+    CONTINUE  shift, and go to state 10
+    DO        shift, and go to state 11
+
+    statements     go to state 146
+    statement      go to state 13
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 139
+
+   32 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@6 . CLOSEBRACE NEWLINE
+
+    CLOSEBRACE  shift, and go to state 147
+
+
+state 140
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE . $@8 WHILE OPENPAR not_expression CLOSEPAR separator
+
+    $default  reduce using rule 34 ($@8)
+
+    $@8  go to state 148
+
+
+state 141
+
+   41 definition_list: definition_list COMMA newline_opt definition . newline_opt
+
+    $default  reduce using rule 46 (newline_opt)
+
+    newline_opt  go to state 149
+
+
+state 142
+
+   44 definition: ID COLON not_expression .
+
+    $default  reduce using rule 44 (definition)
+
+
+state 143
+
+   38 member_list: member_list COMMA newline_opt not_expression . newline_opt
+
+    $default  reduce using rule 46 (newline_opt)
+
+    newline_opt  go to state 150
+
+
+state 144
+
+    2 statements: statements . statement
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@1 statements . CLOSEBRACE else_opt
+
+    ID          shift, and go to state 3
+    VAR         shift, and go to state 4
+    NEWLINE     shift, and go to state 5
+    DOC         shift, and go to state 6
+    CLOSEBRACE  shift, and go to state 151
+    IF          shift, and go to state 7
+    WHILE       shift, and go to state 8
+    BREAK       shift, and go to state 9
+    CONTINUE    shift, and go to state 10
+    DO          shift, and go to state 11
+
+    statement      go to state 32
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 145
+
+   22 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@2 CLOSEBRACE . else_opt
+
+    ELSE  shift, and go to state 152
+
+    $default  reduce using rule 28 (else_opt)
+
+    else_opt  go to state 153
+
+
+state 146
+
+    2 statements: statements . statement
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@5 statements . CLOSEBRACE NEWLINE
+
+    ID          shift, and go to state 3
+    VAR         shift, and go to state 4
+    NEWLINE     shift, and go to state 5
+    DOC         shift, and go to state 6
+    CLOSEBRACE  shift, and go to state 154
+    IF          shift, and go to state 7
+    WHILE       shift, and go to state 8
+    BREAK       shift, and go to state 9
+    CONTINUE    shift, and go to state 10
+    DO          shift, and go to state 11
+
+    statement      go to state 32
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 147
+
+   32 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@6 CLOSEBRACE . NEWLINE
+
+    NEWLINE  shift, and go to state 155
+
+
+state 148
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 . WHILE OPENPAR not_expression CLOSEPAR separator
+
+    WHILE  shift, and go to state 156
+
+
+state 149
+
+   41 definition_list: definition_list COMMA newline_opt definition newline_opt .
+   45 newline_opt: newline_opt . NEWLINE
+
+    NEWLINE  shift, and go to state 119
+
+    $default  reduce using rule 41 (definition_list)
+
+
+state 150
+
+   38 member_list: member_list COMMA newline_opt not_expression newline_opt .
+   45 newline_opt: newline_opt . NEWLINE
+
+    NEWLINE  shift, and go to state 119
+
+    $default  reduce using rule 38 (member_list)
+
+
+state 151
+
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@1 statements CLOSEBRACE . else_opt
+
+    ELSE  shift, and go to state 152
+
+    $default  reduce using rule 28 (else_opt)
+
+    else_opt  go to state 157
+
+
+state 152
+
+   23 else_opt: ELSE . if_expression
+   25         | ELSE . OPENBRACE NEWLINE $@3 statements CLOSEBRACE NEWLINE
+   27         | ELSE . OPENBRACE NEWLINE $@4 CLOSEBRACE NEWLINE
+
+    OPENBRACE  shift, and go to state 158
+    IF         shift, and go to state 7
+
+    if_expression  go to state 159
+
+
+state 153
+
+   22 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@2 CLOSEBRACE else_opt .
+
+    $default  reduce using rule 22 (if_expression)
+
+
+state 154
+
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@5 statements CLOSEBRACE . NEWLINE
+
+    NEWLINE  shift, and go to state 160
+
+
+state 155
+
+   32 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@6 CLOSEBRACE NEWLINE .
+
+    $default  reduce using rule 32 (loop)
+
+
+state 156
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE . OPENPAR not_expression CLOSEPAR separator
+
+    OPENPAR  shift, and go to state 161
+
+
+state 157
+
+   20 if_expression: IF OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@1 statements CLOSEBRACE else_opt .
+
+    $default  reduce using rule 20 (if_expression)
+
+
+state 158
+
+   25 else_opt: ELSE OPENBRACE . NEWLINE $@3 statements CLOSEBRACE NEWLINE
+   27         | ELSE OPENBRACE . NEWLINE $@4 CLOSEBRACE NEWLINE
+
+    NEWLINE  shift, and go to state 162
+
+
+state 159
+
+   23 else_opt: ELSE if_expression .
+
+    $default  reduce using rule 23 (else_opt)
+
+
+state 160
+
+   30 loop: WHILE OPENPAR not_expression CLOSEPAR OPENBRACE NEWLINE $@5 statements CLOSEBRACE NEWLINE .
+
+    $default  reduce using rule 30 (loop)
+
+
+state 161
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR . not_expression CLOSEPAR separator
+
+    ID            shift, and go to state 35
+    QUOTEDSTRING  shift, and go to state 36
+    BREAKLINE     shift, and go to state 37
+    NUM           shift, and go to state 38
+    OPENPAR       shift, and go to state 39
+    NOT           shift, and go to state 40
+    TRUE          shift, and go to state 41
+    FALSE         shift, and go to state 42
+
+    not_expression  go to state 163
+    boolean         go to state 44
+    condition       go to state 45
+    expression      go to state 46
+    factor          go to state 47
+    token           go to state 48
+
+
+state 162
+
+   25 else_opt: ELSE OPENBRACE NEWLINE . $@3 statements CLOSEBRACE NEWLINE
+   27         | ELSE OPENBRACE NEWLINE . $@4 CLOSEBRACE NEWLINE
+
+    CLOSEBRACE  reduce using rule 26 ($@4)
+    $default    reduce using rule 24 ($@3)
+
+    $@3  go to state 164
+    $@4  go to state 165
+
+
+state 163
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression . CLOSEPAR separator
+
+    CLOSEPAR  shift, and go to state 166
+
+
+state 164
+
+   25 else_opt: ELSE OPENBRACE NEWLINE $@3 . statements CLOSEBRACE NEWLINE
+
+    ID        shift, and go to state 3
+    VAR       shift, and go to state 4
+    NEWLINE   shift, and go to state 5
+    DOC       shift, and go to state 6
+    IF        shift, and go to state 7
+    WHILE     shift, and go to state 8
+    BREAK     shift, and go to state 9
+    CONTINUE  shift, and go to state 10
+    DO        shift, and go to state 11
+
+    statements     go to state 167
+    statement      go to state 13
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 165
+
+   27 else_opt: ELSE OPENBRACE NEWLINE $@4 . CLOSEBRACE NEWLINE
+
+    CLOSEBRACE  shift, and go to state 168
+
+
+state 166
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR . separator
+
+    SEMICOLON  shift, and go to state 26
+    NEWLINE    shift, and go to state 27
+
+    separator  go to state 169
+
+
+state 167
+
+    2 statements: statements . statement
+   25 else_opt: ELSE OPENBRACE NEWLINE $@3 statements . CLOSEBRACE NEWLINE
+
+    ID          shift, and go to state 3
+    VAR         shift, and go to state 4
+    NEWLINE     shift, and go to state 5
+    DOC         shift, and go to state 6
+    CLOSEBRACE  shift, and go to state 170
+    IF          shift, and go to state 7
+    WHILE       shift, and go to state 8
+    BREAK       shift, and go to state 9
+    CONTINUE    shift, and go to state 10
+    DO          shift, and go to state 11
+
+    statement      go to state 32
+    declaration    go to state 14
+    assignment     go to state 15
+    if_expression  go to state 16
+    loop           go to state 17
+
+
+state 168
+
+   27 else_opt: ELSE OPENBRACE NEWLINE $@4 CLOSEBRACE . NEWLINE
+
+    NEWLINE  shift, and go to state 171
+
+
+state 169
+
+   35 loop: DO OPENBRACE NEWLINE $@7 statements CLOSEBRACE NEWLINE $@8 WHILE OPENPAR not_expression CLOSEPAR separator .
+
+    $default  reduce using rule 35 (loop)
+
+
+state 170
+
+   25 else_opt: ELSE OPENBRACE NEWLINE $@3 statements CLOSEBRACE . NEWLINE
+
+    NEWLINE  shift, and go to state 172
+
+
+state 171
+
+   27 else_opt: ELSE OPENBRACE NEWLINE $@4 CLOSEBRACE NEWLINE .
+
+    $default  reduce using rule 27 (else_opt)
+
+
+state 172
+
+   25 else_opt: ELSE OPENBRACE NEWLINE $@3 statements CLOSEBRACE NEWLINE .
+
+    $default  reduce using rule 25 (else_opt)

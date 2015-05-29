@@ -1,0 +1,41 @@
+The 2-level Round Robin scheme works at random and sometimes doesn't. I will try my best to explain my design below.
+
+As per the handout, I've added a flag to check if the ROUND_ROBIN is to be used or not.
+The processes now accepts group names when created.
+
+The scheduling system I was trying to implement uses the current readylist that is used by the original XINU scheduling policy.
+The readylist queue can be divided into groups.
+
+For example, there are 3 groups present in the readylist - G1,G2,G3
+
+
+readylist
+----------------
+| G1 | G2 | G3 |
+----------------
+
+And each group inside the readylist is also a queue.
+
+G1 holds processes - PrA, PrB, PrC
+
+G1
+-------------------
+| PrA | PrB | PrC |
+------------------
+
+Process A is ready and on top of the readylist and resched() gets called by the current running process, PrD which is a part of G1 also.
+
+PrD changes it's state to PR_READY.
+PrD goes through G1 and is added at the bottom of G1(between PrC and the first process of G2).
+
+PrA is now dequeued. If PrA is of the same group as the current running process(PrD), then all process of that group are dequeued and appended to the end of the ready list.
+Now the ready list looks as below,
+
+----------------
+| G2 | G3 | G1 |
+----------------
+
+Once a process with a different group is found, the resched() function continues on to make it to PR_CURR and context switches.
+
+All of the code for the new scheduling policy can be found in insert.c and resched.c
+

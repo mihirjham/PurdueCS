@@ -1,0 +1,7 @@
+addFirst A
+addFirst B
+addLast C
+addLast D
+print
+removeFirst
+print
